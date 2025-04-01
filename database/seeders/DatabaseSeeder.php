@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\User; // Corrected model name
+use App\Models\Role; // Import the Role model
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -14,13 +14,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        // Ensure roles exist before assigning them
+        $this->call(RolesSeeder::class);
 
-        User::create([
+        // Create an admin user and assign the "admin" role
+        $admin = User::create([
             'name' => 'Admin User',
             'username' => 'admin',
-            'email' => 'admin@example.com',
-            'password' => Hash::make('admin'), // Hashing the password
+            'password' => Hash::make('admin'), // Securely hash the password
+            'email' => 'admin@email.com',
+            'role_id' => 1, // Assuming role_id exists in the users table
         ]);
     }
 }
